@@ -1,0 +1,18 @@
+#out-rated-icon{
+    width:600px;
+}
+
+.header{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body{
+    background-image: url("../icons/main-bg.jpg");
+    background-size:cover;
+    background-position:center;
+    min-height: 100vh;
+    margin: 0;
+}
+
