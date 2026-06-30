@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "generate-config": "node scripts/generate-config.js"
+  },
   "dependencies": {
     "dotenv": "^17.4.2"
   }

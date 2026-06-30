@@ -1,31 +1,21 @@
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const TMDB_API_KEY = 'PASTE_YOUR_TMDB_API_KEY_HERE';
-const TMDB_ACCESS_TOKEN = 'PASTE_YOUR_TMDB_BEARER_TOKEN_HERE';
+const TMDB_ACCESS_TOKEN = globalThis.__TMDB_ACCESS_TOKEN__ || '';
 
 async function fetchTMDB(path) {
-    if (TMDB_API_KEY === 'PASTE_YOUR_TMDB_API_KEY_HERE' && TMDB_ACCESS_TOKEN === 'PASTE_YOUR_TMDB_BEARER_TOKEN_HERE') {
-        throw new Error('Add either a TMDB API key or a TMDB bearer token in scripts/API.js.');
+    if (!TMDB_ACCESS_TOKEN) {
+        throw new Error('Missing TMDB access token. Run npm run generate-config after setting TMDB_ACCESS_TOKEN in .env.');
     }
 
-    const useApiKey = TMDB_API_KEY !== 'PASTE_YOUR_TMDB_API_KEY_HERE';
-    const requestUrl = useApiKey
-        ? `${TMDB_BASE_URL}${path}${path.includes('?') ? '&' : '?'}api_key=${encodeURIComponent(TMDB_API_KEY)}`
-        : `${TMDB_BASE_URL}${path}`;
-
-    const response = await fetch(requestUrl, {
-        headers: useApiKey
-            ? {
-                accept: 'application/json'
-            }
-            : {
-                Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-                accept: 'application/json'
-            }
+    const response = await fetch(`${TMDB_BASE_URL}${path}`, {
+        headers: {
+            Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
+            accept: 'application/json'
+        }
     });
 
     if (!response.ok) {
         if (response.status === 401) {
-            throw new Error('TMDB authentication failed. If you pasted the regular API key, use TMDB_API_KEY. If you pasted the v4 token, use TMDB_ACCESS_TOKEN.');
+            throw new Error('TMDB authentication failed. Check the token in .env and regenerate the config file.');
         }
 
         throw new Error(`TMDB request failed with status ${response.status}`);
