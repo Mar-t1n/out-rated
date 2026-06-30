@@ -7,14 +7,29 @@
     <link rel="stylesheet" href="styles/index-styles.css">
 </head>
 <body>
-    <div class="header">
-        <img src="icons/text-title-icon.png" id = "out-rated-icon">
+
+    <div class="home-screen">
+        <div class="header">
+            <img src="icons/text-title-icon.png" id = "out-rated-icon">
+        </div>
+
+        <div class="menu-button-container">
+            <button class="menu-button" id="play-button">Play</button>
+            <button class="menu-button" id="settings-button">Settings</button>
+            <button class="menu-button" id="credits-button">Tuff stuff</button>
+        </div>
     </div>
 
-    <div class="menu-button-container">
-        <button class="menu-button" id="play-button">Play</button>
-        <button class="menu-button" id="settings-button">Settings</button>
-        <button class="menu-button" id="credits-button">Tuff stuff</button>
+
+    <div class="game-screen">
+    </div>
+
+    <script src="scripts/API.js"></script>
+    <script src="scripts/screen-switching.js"></script>
+    <script src="scripts/game.js"></script>
 
 </body>
+
+
+
 </html>
