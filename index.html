@@ -1,35 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="cyber-neon">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Out-Rated!</title>
+    <title>Out-Rated! — Movie Rating Battle</title>
+    <meta name="description" content="Test your film knowledge in Out-Rated! Guess which movie has the higher TMDB rating in this fast-paced movie trivia showdown.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/index-styles.css">
 </head>
 <body>
 
-    <div class="home-screen">
-        <div class="header">
-            <img src="icons/text-title-icon.png" id = "out-rated-icon">
-        </div>
+    <!-- Animated Glowing Background Blobs -->
+    <div class="bg-blobs" aria-hidden="true">
+        <div class="blob blob-1" id="blob-1-id"></div>
+        <div class="blob blob-2" id="blob-2-id"></div>
+        <div class="blob blob-3" id="blob-3-id"></div>
+    </div>
 
-        <div class="menu-button-container">
-            <button class="menu-button" id="play-button">Play</button>
-            <button class="menu-button" id="settings-button">Settings</button>
-            <button class="menu-button" id="credits-button">Tuff stuff</button>
+    <!-- Home Screen -->
+    <div class="home-screen active" id="home-screen-section">
+        <div class="hero-content">
+            <div class="header">
+                <div class="title-container">
+                    <h1 class="logo-title" id="out-rated-title">OUT-RATED<span class="exclamation">!</span></h1>
+                </div>
+                <p class="tagline">Select the movie with the higher rating.</p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="home-stats-container" id="home-stats-id">
+                <div class="stat-card">
+                    <span class="stat-label">HIGH SCORE</span>
+                    <span class="stat-value" id="home-highscore">0</span>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="menu-button-container">
+                <button class="menu-button primary-btn" id="play-button" aria-label="Start Game">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <span>Play Battle</span>
+                </button>
+                <button class="menu-button secondary-btn" id="settings-button" aria-label="Open Settings">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <span>Settings</span>
+                </button>
+                <button class="menu-button secondary-btn" id="credits-button" aria-label="Open Credits">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>Credits</span>
+                </button>
+            </div>
         </div>
     </div>
 
-
-    <div class="game-screen">
+    <!-- Game Screen -->
+    <div class="game-screen" id="game-screen-section" style="display: none;">
+        <!-- Filled dynamically by game.js -->
     </div>
 
+    <!-- Modal: Settings -->
+    <div class="modal" id="modal-settings" aria-hidden="true">
+        <div class="modal-backdrop" id="settings-backdrop-id"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close" id="close-settings-btn" aria-label="Close Settings">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label class="setting-label">Visual Theme</label>
+                    <div class="theme-picker">
+                        <button class="theme-option active" data-theme-name="cyber-neon" style="--theme-accent: #ff007f;">
+                            <span class="theme-dot" style="background: linear-gradient(135deg, #00f0ff, #ff007f);"></span>
+                            Cyber Neon
+                        </button>
+                        <button class="theme-option" data-theme-name="volcano-ember" style="--theme-accent: #ff4500;">
+                            <span class="theme-dot" style="background: linear-gradient(135deg, #ff8c00, #ff4500);"></span>
+                            Volcano Ember
+                        </button>
+                        <button class="theme-option" data-theme-name="emerald-aurora" style="--theme-accent: #00ff88;">
+                            <span class="theme-dot" style="background: linear-gradient(135deg, #00ff88, #00aaff);"></span>
+                            Emerald Aurora
+                        </button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Data Management</label>
+                    <button class="danger-btn" id="reset-highscore-btn">Reset High Score</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Credits -->
+    <div class="modal" id="modal-credits" aria-hidden="true">
+        <div class="modal-backdrop" id="credits-backdrop-id"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Credits & Info</h2>
+                <button class="modal-close" id="close-credits-btn" aria-label="Close Credits">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="credits-intro"><strong>Out-Rated!</strong> is a movie comparison game where you test your cinema expertise by identifying which film rated higher on TMDB.</p>
+                
+                <div class="credits-section">
+                    <h3>Technologies Used</h3>
+                    <ul>
+                        <li>HTML5 & Semantic Elements</li>
+                        <li>Vanilla CSS (Custom CSS Variables, Keyframes, Glassmorphism)</li>
+                        <li>Vanilla JavaScript (Modern async actions)</li>
+                        <li>Node.js backend for serving assets and API caching</li>
+                    </ul>
+                </div>
+
+                <div class="credits-section tmdb-attribution">
+                    <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d74d94065c6937d53f475952150d4c7a0f12be16c6b41a95a049d60921cbf1e0.svg" alt="TMDB Logo" class="tmdb-logo">
+                    <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+                </div>
+                
+                <div class="credits-footer">
+                    <p>Developed with ❤️ as a modern interactive web experience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="scripts/config.js"></script>
     <script src="scripts/API.js"></script>
     <script src="scripts/screen-switching.js"></script>
+    <script src="scripts/modals.js"></script>
     <script src="scripts/game.js"></script>
-
-        
 
 </body>
 </html>
